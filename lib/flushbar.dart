@@ -505,19 +505,20 @@ class _FlushbarState<K extends Object?> extends State<Flushbar<K>> with TickerPr
     }
 
     if (widget.showProgressIndicator) {
-      return TweenAnimationBuilder<double>(
-        duration: widget.duration ?? const Duration(seconds: 1),
-        curve: Curves.easeInOut,
-        tween: Tween<double>(
-          begin: 0,
-          end: 100,
-        ),
-        builder: (context, value, _) => LinearProgressIndicator(
-          backgroundColor: widget.progressIndicatorBackgroundColor,
-          valueColor: widget.progressIndicatorValueColor,
-          value: value,
-        ),
+      AnimationController progressAnimation = AnimationController(
+        vsync: this,
+        duration: widget.duration ?? const Duration(seconds: 2),
       );
+
+      return AnimatedBuilder(
+          animation: progressAnimation,
+          builder: (_, __) {
+            return LinearProgressIndicator(
+              value: progressAnimation.value,
+              backgroundColor: widget.progressIndicatorBackgroundColor,
+              valueColor: widget.progressIndicatorValueColor,
+            );
+          });
     }
 
     return _emptyWidget;
