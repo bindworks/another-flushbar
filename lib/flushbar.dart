@@ -302,7 +302,7 @@ class _FlushbarState<K extends Object?> extends State<Flushbar<K>> with TickerPr
   GlobalKey? _backgroundBoxKey;
   FlushbarStatus? currentStatus;
   AnimationController? _fadeController;
-  late AnimationController controller;
+  AnimationController? controller;
   late Animation<double> _fadeAnimation;
   late bool _isTitlePresent;
   late double _messageTopMargin;
@@ -322,7 +322,7 @@ class _FlushbarState<K extends Object?> extends State<Flushbar<K>> with TickerPr
     )..addListener(() {
         setState(() {});
       });
-    controller.repeat();
+    controller?.repeat();
 
     _backgroundBoxKey = GlobalKey();
     _boxHeightCompleter = Completer<Size>();
@@ -354,7 +354,7 @@ class _FlushbarState<K extends Object?> extends State<Flushbar<K>> with TickerPr
 
     _focusAttachment.detach();
     _focusNode!.dispose();
-    controller.dispose();
+    controller?.dispose();
     super.dispose();
   }
 
@@ -502,25 +502,25 @@ class _FlushbarState<K extends Object?> extends State<Flushbar<K>> with TickerPr
   }
 
   Widget _buildProgressIndicator() {
-    if (widget.showProgressIndicator && _progressAnimation != null) {
+    if (widget.showProgressIndicator && controller != null) {
       return AnimatedBuilder(
-          animation: _progressAnimation!,
+          animation: controller!,
           builder: (_, __) {
             return LinearProgressIndicator(
-              value: _progressAnimation!.value,
+              value: controller!.value,
               backgroundColor: widget.progressIndicatorBackgroundColor,
               valueColor: widget.progressIndicatorValueColor,
             );
           });
     }
 
-    if (widget.showProgressIndicator) {
-      return LinearProgressIndicator(
-        value: controller.value,
-        //backgroundColor: widget.progressIndicatorBackgroundColor,
-        //valueColor: widget.progressIndicatorValueColor,
-      );
-    }
+    // if (widget.showProgressIndicator) {
+    //   return LinearProgressIndicator(
+    //     value: controller.value,
+    //     //backgroundColor: widget.progressIndicatorBackgroundColor,
+    //     //valueColor: widget.progressIndicatorValueColor,
+    //   );
+    // }
 
     return _emptyWidget;
   }
