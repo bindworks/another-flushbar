@@ -354,6 +354,7 @@ class _FlushbarState<K extends Object?> extends State<Flushbar<K>> with TickerPr
 
     _focusAttachment.detach();
     _focusNode!.dispose();
+    controller.dispose();
     super.dispose();
   }
 
