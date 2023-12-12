@@ -517,8 +517,8 @@ class _FlushbarState<K extends Object?> extends State<Flushbar<K>> with TickerPr
     if (widget.showProgressIndicator) {
       return LinearProgressIndicator(
         value: controller.value,
-        backgroundColor: widget.progressIndicatorBackgroundColor,
-        valueColor: widget.progressIndicatorValueColor,
+        //backgroundColor: widget.progressIndicatorBackgroundColor,
+        //valueColor: widget.progressIndicatorValueColor,
       );
     }
 
