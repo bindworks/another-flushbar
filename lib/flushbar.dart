@@ -302,6 +302,7 @@ class _FlushbarState<K extends Object?> extends State<Flushbar<K>> with TickerPr
   GlobalKey? _backgroundBoxKey;
   FlushbarStatus? currentStatus;
   AnimationController? _fadeController;
+  late AnimationController controller;
   late Animation<double> _fadeAnimation;
   late bool _isTitlePresent;
   late double _messageTopMargin;
@@ -314,6 +315,14 @@ class _FlushbarState<K extends Object?> extends State<Flushbar<K>> with TickerPr
   @override
   void initState() {
     super.initState();
+
+    controller = AnimationController(
+      vsync: this,
+      duration: widget.duration ?? const Duration(seconds: 2),
+    )..addListener(() {
+        setState(() {});
+      });
+    controller.repeat();
 
     _backgroundBoxKey = GlobalKey();
     _boxHeightCompleter = Completer<Size>();
@@ -505,20 +514,11 @@ class _FlushbarState<K extends Object?> extends State<Flushbar<K>> with TickerPr
     }
 
     if (widget.showProgressIndicator) {
-      AnimationController progressAnimation = AnimationController(
-        vsync: this,
-        duration: widget.duration ?? const Duration(seconds: 2),
+      return LinearProgressIndicator(
+        value: controller.value,
+        backgroundColor: widget.progressIndicatorBackgroundColor,
+        valueColor: widget.progressIndicatorValueColor,
       );
-
-      return AnimatedBuilder(
-          animation: progressAnimation,
-          builder: (_, __) {
-            return LinearProgressIndicator(
-              value: progressAnimation.value,
-              backgroundColor: widget.progressIndicatorBackgroundColor,
-              valueColor: widget.progressIndicatorValueColor,
-            );
-          });
     }
 
     return _emptyWidget;
