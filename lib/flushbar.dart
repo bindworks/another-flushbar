@@ -523,9 +523,18 @@ class _FlushbarState<K extends Object?> extends State<Flushbar<K>>
     }
 
     if (widget.showProgressIndicator) {
-      return LinearProgressIndicator(
-        backgroundColor: widget.progressIndicatorBackgroundColor,
-        valueColor: widget.progressIndicatorValueColor,
+      return TweenAnimationBuilder<double>(
+        duration: widget.duration ?? const Duration(seconds: 3),
+        curve: Curves.easeInOut,
+        tween: Tween<double>(
+          begin: 0,
+          end: 100,
+        ),
+        builder: (context, value, _) => LinearProgressIndicator(
+          backgroundColor: widget.progressIndicatorBackgroundColor,
+          valueColor: widget.progressIndicatorValueColor,
+          value: value,
+        ),
       );
     }
 
