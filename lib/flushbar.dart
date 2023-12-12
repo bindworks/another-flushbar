@@ -320,7 +320,6 @@ class _FlushbarState<K extends Object?> extends State<Flushbar<K>> with TickerPr
     )..addListener(() {
         setState(() {});
       });
-    controller.repeat();
 
     _backgroundBoxKey = GlobalKey();
     _boxHeightCompleter = Completer<Size>();
